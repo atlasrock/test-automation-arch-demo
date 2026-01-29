@@ -1,4 +1,7 @@
 import { Page } from "@playwright/test";
+import { BaseComponent } from "../components/baseComponent.comp";
+import { BtJobPicker } from "../components/btJobPicker.comp";
+import { BtTopNav } from "../components/btTopNav.comp";
 
 /* About Page Objects
 This project uses the Page Object Model (POM) to organize UI-related code, such as Locators and actions.
@@ -15,8 +18,14 @@ Page Objects should follow SOLID priniples. To encourage this:
  * All page objects should extend BasePage.
  */
 export abstract class BasePage {
+  jobPicker: BtJobPicker;
+  topNav: BtTopNav;
+
   // Using shorthand to create and set variables on the BasePage object
-  constructor(protected readonly page: Page, public readonly URL: string) {}
+  constructor(protected readonly page: Page, public readonly URL: string) {
+    this.jobPicker = new BtJobPicker(page.getByTestId("job-picker"));
+    this.topNav = new BtTopNav(page.getByTestId("top-nav")); 
+  }
 
   /**
    * Navigate to the page object's given URL
@@ -28,5 +37,5 @@ export abstract class BasePage {
   /**
    * Wait for the page to be loaded
    */
-  abstract waitForPageLoad();
+  abstract waitForPageLoad(): any;
 }
